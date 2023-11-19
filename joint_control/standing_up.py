@@ -7,16 +7,32 @@
 
 
 from recognize_posture import PostureRecognitionAgent
-
+from keyframes import rightBackToStand, rightBellyToStand
+from time import time
 
 class StandingUpAgent(PostureRecognitionAgent):
+    def __init__(self, simspark_ip='localhost', simspark_port=3100, teamname='DAInamite', player_id=0, sync_mode=True):
+        super().__init__(simspark_ip, simspark_port, teamname, player_id, sync_mode)
+        self.old_posture = None
+
     def think(self, perception):
         self.standing_up()
         return super(StandingUpAgent, self).think(perception)
 
     def standing_up(self):
+
         posture = self.posture
         # YOUR CODE HERE
+        if posture != self.old_posture:
+            #print(posture, self.old_posture)
+            if posture == "Back":
+                self.keyframes = rightBackToStand()
+                self.passed_time = time()
+            if posture == "Belly":
+                self.keyframes = rightBellyToStand()
+                self.passed_time = time()
+
+        self.old_posture = posture
 
 
 class TestStandingUpAgent(StandingUpAgent):
