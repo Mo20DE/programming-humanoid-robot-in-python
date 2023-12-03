@@ -12,6 +12,8 @@ from threading import Thread
 from xmlrpc.client import ServerProxy, Error
 from keyframes import hello, wipe_forehead
 
+import time
+
 class PostHandler(object):
     '''the post handler wraps function to be excuted in paralle
     '''
@@ -102,11 +104,10 @@ if __name__ == '__main__':
     print(agent.get_posture())
 
     key1 = agent.post.execute_keyframes(hello())
-    print("Hello world")
     print(key1)
 
-    import time
     time.sleep(10)
+    
     key2 = agent.post.execute_keyframes(wipe_forehead(None))
     print(key2)
 
